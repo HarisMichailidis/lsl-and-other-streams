@@ -1,0 +1,2 @@
+confluent-kafka==1.6.0
+pylsl==1.14.0
