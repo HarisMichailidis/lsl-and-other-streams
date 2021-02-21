@@ -1,4 +1,4 @@
-# Docker Instrunctions
+# Docker Instructions
 
 ## Start the cluster
 From inside the `docker/` dir, run the following
