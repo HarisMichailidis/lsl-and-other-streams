@@ -1,49 +1,26 @@
-"""Example program to demonstrate how to send a multi-channel time series to
-LSL."""
 import sys
-import getopt
-
 import time
 from random import random as rand
-
 from pylsl import StreamInfo, StreamOutlet, local_clock
+from lib import read_yaml_config
 
 
 def main(argv):
-    srate = 0.2
-    name = 'BioSemi-2'
-    type = 'EEG'
-    n_channels = 8
-    help_string = 'SendData.py -s <sampling_rate> -n <stream_name> -t <stream_type>'
-    try:
-        opts, args = getopt.getopt(argv, "hs:c:n:t:", longopts=["srate=", "channels=", "name=", "type"])
-    except getopt.GetoptError:
-        print(help_string)
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print(help_string)
-            sys.exit()
-        elif opt in ("-s", "--srate"):
-            srate = float(arg)
-        elif opt in ("-c", "--channels"):
-            n_channels = int(arg)
-        elif opt in ("-n", "--name"):
-            name = arg
-        elif opt in ("-t", "--type"):
-            type = arg
+    config = read_yaml_config()['lsl']
+    srate = config['srate']
+    name = config['name']
+    type = config['type']
+    n_channels = config['n_channels']
+    stream_id = config['stream_id']
+    producer_sleep = config['producer_sleep']
 
-    # first create a new stream info (here we set the name to BioSemi,
-    # the content-type to EEG, 8 channels, 100 Hz, and float-valued data) The
-    # last value would be the serial number of the device or some other more or
-    # less locally unique identifier for the stream as far as available (you
-    # could also omit it but interrupted connections wouldn't auto-recover)
-    info = StreamInfo(name, type, n_channels, srate, 'float32', 'myuid34234')
+    # Create the Stream
+    info = StreamInfo(name, type, n_channels, srate, 'float32', stream_id)
 
     # next make an outlet
     outlet = StreamOutlet(info)
 
-    print("now sending data...")
+    print("Starting sending data at {}Hz...".format(srate))
     start_time = local_clock()
     sent_samples = 0
     while True:
@@ -52,14 +29,14 @@ def main(argv):
         for sample_ix in range(required_samples):
             # make a new random n_channels sample; this is converted into a
             # pylsl.vectorf (the data type that is expected by push_sample)
-            mysample = [sent_samples+sample_ix]
-            mysample.extend([rand() for _ in range(n_channels-1)])
+            mysample = [sent_samples + sample_ix]
+            mysample.extend([rand() for _ in range(n_channels - 1)])
             # now send it with the current timestamp
             outlet.push_sample(mysample, timestamp=time.time())
+            print("Sent Sample: {}".format(mysample[0]))
         sent_samples += required_samples
-        print("Sent Sample: {}".format(sent_samples))
-        # now send it and wait for a bit before trying again.
-        time.sleep(10)
+        # wait for a bit before trying again.
+        time.sleep(producer_sleep)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import json
 from typing import List
+import yaml
 
 
 def sample_encoder(timestamp: float, sample: List[float]):
@@ -35,3 +36,11 @@ def sample_decoder(encoded_sample: str):
 
     return timestamp, sample
 
+
+def read_yaml_config(filepath="config.yml"):
+    with open(filepath, 'r') as stream:
+        try:
+            config = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+    return config

@@ -1,0 +1,18 @@
+lsl:
+  srate: 1
+  name: test-1
+  type: Test
+  n_channels: 8
+  stream_id: lalala123
+  producer_sleep: 5 #sec
+
+kafka:
+  bootstrap_servers: localhost:9092
+  topic: lsl-test-1
+  producer:
+    client_id: jupyter-kafka-producer-1
+    callback_timeout: 5 #sec
+  consumer:
+    group_id: jupyter-kafka-consumer-1
+    auto_offset_reset: earliest
+    poll_timeout: 20 #sec
