@@ -11,11 +11,11 @@ def main(argv):
     name = config['name']
     type = config['type']
     n_channels = config['n_channels']
-    stream_id = config['stream_id']
+    source_id = config['source_id']
     producer_sleep = config['producer_sleep']
 
     # Create the Stream
-    info = StreamInfo(name, type, n_channels, srate, 'float32', stream_id)
+    info = StreamInfo(name, type, n_channels, srate, 'float32', source_id)
 
     # next make an outlet
     outlet = StreamOutlet(info)

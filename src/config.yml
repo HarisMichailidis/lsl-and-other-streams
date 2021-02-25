@@ -1,10 +1,11 @@
 lsl:
   srate: 1
-  name: test-1
+  name: lsl-test-1
   type: Test
   n_channels: 8
-  stream_id: lalala123
+  source_id: lalala123
   producer_sleep: 5 #sec
+  pulling_timeout: 10 #sec
 
 kafka:
   bootstrap_servers: localhost:9092
