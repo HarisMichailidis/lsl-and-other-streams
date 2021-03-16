@@ -2,18 +2,20 @@ lsl:
   srate: 1
   name: lsl-test-1
   type: Test
-  n_channels: 8
+  n_channels: 10000
   source_id: SendDataToLsl
   producer_sleep: 5 #sec
   pulling_timeout: 10 #sec
 
 kafka:
   bootstrap_servers: localhost:9092
-  topic: lsl-test-1
+  topic: lsl-test-avro-1
+  schema_registry: http://localhost:8081/
+  schema_path: schemas/lsl.Sample.avsc
   producer:
-    client_id: jupyter-kafka-producer-1
+    client_id: kafka-producer-avro-1
     callback_timeout: 5 #sec
   consumer:
-    group_id: jupyter-kafka-consumer-1
+    group_id: kafka-consumer-avro-1
     auto_offset_reset: earliest
     poll_timeout: 20 #sec

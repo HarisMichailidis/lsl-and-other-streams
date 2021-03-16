@@ -6,7 +6,7 @@ from lib import read_yaml_config
 
 
 def main(argv):
-    config = read_yaml_config()['lsl']
+    config = read_yaml_config("config-avro.yml")['lsl']
     srate = config['srate']
     name = config['name']
     type = config['type']

@@ -1,0 +1,17 @@
+{
+  "name": "lsl.Sample",
+  "type": "record",
+  "fields": [
+    {
+      "name": "timestamp",
+      "type": "float"
+    },
+    {
+      "name": "sample",
+      "type": {
+        "type": "array",
+        "items": "float"
+      }
+    }
+  ]
+}
