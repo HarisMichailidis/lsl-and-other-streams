@@ -98,6 +98,11 @@ A useful read (2020):
 - Latest Python version: `3.6`
 
 
+## Python-AVRO
+https://www.perfectlyrandom.org/2019/11/29/handling-avro-files-in-python/
+
+### Description
+The official library `avro`/`avro-python3` seems that it's much slower than the 3rd party `fastavro` which is widely adopted.
 
 
 
